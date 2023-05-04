@@ -3,8 +3,13 @@
 <head>
     <title>Leisurely Blog</title>
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="/css/core.css" />
 </head>
 <body>
+<div id="core-container">
+    <a href="/">Home</a>
+    <a href="/about">About</a>
 {{ block "content" . }}{{ end }}
+</div>
 </body>
 </html>
