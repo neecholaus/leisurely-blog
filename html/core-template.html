@@ -7,9 +7,10 @@
 </head>
 <body>
 <div id="core-container">
-    <a href="/">Home</a>
-    <a href="/about">About</a>
-{{ block "content" . }}{{ end }}
+    <a href="/" class="btn">Home</a>
+    <a href="/about" class="btn">About</a>
+    <a href="/create-draft" class="btn">New</a>
+    {{ block "content" . }}{{ end }}
 </div>
 </body>
 </html>

@@ -14,6 +14,7 @@ func main() {
 
 	r.HandleFunc("/", getLanding)
 	r.HandleFunc("/about", getAbout)
+	r.HandleFunc("/create-draft", getCreateDraft)
 
 	_ = http.ListenAndServe(":8080", r)
 }

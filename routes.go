@@ -14,3 +14,8 @@ func getAbout(w http.ResponseWriter, r *http.Request) {
 	html, _ := template.ParseFiles("./html/core-template.html", "./html/about.html")
 	_ = html.Execute(w, nil)
 }
+
+func getCreateDraft(w http.ResponseWriter, r *http.Request) {
+	html, _ := template.ParseFiles("./html/core-template.html", "./html/create-draft.html")
+	_ = html.Execute(w, nil)
+}

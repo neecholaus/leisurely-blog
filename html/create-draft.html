@@ -1,0 +1,30 @@
+{{ define "content" }}
+<h2>create draft</h2>
+<textarea id="draft-text-box" placeholder="Share something meaningful..."></textarea>
+<div style="display:flex;justify-content:end;gap:5px;">
+    <button class="btn">Delete</button>
+    <button class="btn">Preview</button>
+    <button class="btn">Publish</button>
+</div>
+
+<style>
+    #draft-text-box {
+        width: 100%;
+        min-width: 100%;
+        font-family: Georgia, serif;
+        font-weight: inherit;
+        letter-spacing: .09em;
+        background: transparent;
+        border: none;
+        border-bottom: solid 1px rgba(0,0,0,0.1);
+        font-size: 16px;
+        height: 50vh;
+        min-height: fit-content;
+    }
+    #draft-text-box:focus,
+    #draft-text-box:active {
+        outline: none;
+        box-shadow: none;
+    }
+</style>
+{{ end }}
