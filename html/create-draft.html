@@ -1,5 +1,6 @@
 {{ define "content" }}
 <h2>Create draft</h2>
+<p id="last-saved"></p>
 <input type="text" id="draft-title" placeholder="Title" />
 <textarea id="draft-content" placeholder="Share something meaningful..."></textarea>
 <div style="display:flex;justify-content:end;gap:5px;">
@@ -32,18 +33,34 @@
     class DraftComposer {
         #lastUsedTitle = null;
 
+        #pendingSave = null;
+
         elements = {
+            lastSaved: document.querySelector('#last-saved'),
             title: document.querySelector('#draft-title'),
             content: document.querySelector('#draft-content'),
         }
 
         constructor() {
-            setInterval(() => {
+            const fn = () => {
+                this.#handleDraftChange();
+            }
+            this.elements.title.addEventListener('keyup', fn);
+            this.elements.content.addEventListener('keyup', fn);
+        }
+
+        #handleDraftChange() {
+            if (this.#pendingSave != null) {
+                clearTimeout(this.#pendingSave);
+            }
+
+            this.#pendingSave = setTimeout(() => {
                 this.save();
-            }, 1000);
+            }, 200);
         }
 
         async save() {
+            this.#pendingSave = null;
             const res = await fetch('/save-draft', {
                 method: 'POST',
                 headers: {
@@ -61,6 +78,8 @@
             this.elements.title.value = resBody.title;
 
             this.#rememberTitle(this.elements.title.value);
+
+            this.elements.lastSaved.textContent = (new Date).toLocaleString();
         }
 
         #rememberTitle(title) {
