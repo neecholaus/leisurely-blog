@@ -7,6 +7,8 @@ import (
 	"io/fs"
 	"net/http"
 	"os"
+
+	"github.com/gorilla/mux"
 )
 
 func getLanding(w http.ResponseWriter, r *http.Request) {
@@ -66,4 +68,26 @@ func postSaveDraft(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Add("content-type", "application/json")
 	w.Write(encodedResponse)
+}
+
+func getViewDraft(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("test")
+	vars := mux.Vars(r)
+	title, ok := vars["title"]
+	if ok == false {
+		w.Write([]byte("cannot"))
+		return
+	}
+
+	file, err := os.ReadFile(fmt.Sprintf("./drafts/%s", title))
+	if err != nil {
+		w.Write([]byte("cannot"))
+		return
+	}
+
+	w.Header().Add("content-type", "text/html")
+	w.Write([]byte(title))
+	w.Write([]byte("<br/>"))
+	w.Write(file)
+	return
 }

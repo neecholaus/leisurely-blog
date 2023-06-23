@@ -16,6 +16,7 @@ func main() {
 	r.HandleFunc("/about", getAbout)
 	r.HandleFunc("/create-draft", getCreateDraft)
 	r.HandleFunc("/save-draft", postSaveDraft)
+	r.HandleFunc("/view-draft/{title}", getViewDraft)
 
 	_ = http.ListenAndServe(":8080", r)
 }
