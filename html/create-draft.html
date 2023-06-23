@@ -1,19 +1,19 @@
 {{ define "content" }}
 <h2>Create draft</h2>
-<textarea id="draft-text-box" placeholder="Share something meaningful..."></textarea>
+<input type="text" id="draft-title" placeholder="Title" />
+<textarea id="draft-content" placeholder="Share something meaningful..."></textarea>
 <div style="display:flex;justify-content:end;gap:5px;">
     <button class="btn">Delete</button>
     <button class="btn">Preview</button>
-    <button class="btn">Publish</button>
 </div>
 
 <style>
-    #draft-text-box {
+    #draft-content {
         width: 100%;
         min-width: 100%;
-        font-family: Georgia, serif;
+        font-family: Garamond, serif;
         font-weight: inherit;
-        letter-spacing: .09em;
+        letter-spacing: .093em;
         background: transparent;
         border: none;
         border-bottom: solid 1px rgba(0,0,0,0.1);
@@ -21,10 +21,53 @@
         height: 50vh;
         min-height: fit-content;
     }
-    #draft-text-box:focus,
-    #draft-text-box:active {
+    #draft-content:focus,
+    #draft-content:active {
         outline: none;
         box-shadow: none;
     }
 </style>
+
+<script>
+    class DraftComposer {
+        #lastUsedTitle = null;
+
+        elements = {
+            title: document.querySelector('#draft-title'),
+            content: document.querySelector('#draft-content'),
+        }
+
+        constructor() {
+            setInterval(() => {
+                this.save();
+            }, 1000);
+        }
+
+        async save() {
+            const res = await fetch('/save-draft', {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json',
+                },
+                body: JSON.stringify({
+                    lastUsedTitle: this.#lastUsedTitle,
+                    title: this.elements.title.value, 
+                    content: this.elements.content.value,
+                })
+            });
+
+            const resBody = await res.json();
+
+            this.elements.title.value = resBody.title;
+
+            this.#rememberTitle(this.elements.title.value);
+        }
+
+        #rememberTitle(title) {
+            this.#lastUsedTitle = title;
+        }
+    }
+
+    new DraftComposer();
+</script>
 {{ end }}
